@@ -1,0 +1,32 @@
+/*针对部分框架样式做出调整*/
+.ivu-layout-header{
+  background: white!important;
+}
+.ivu-menu-horizontal{
+  height: 100%!important;
+}
+.ivu-card{
+  width: 100%!important;
+  border-radius: 5px;
+}
+.ivu-card:hover{
+  box-shadow: rgba(0, 0, 0, 0.15) 0 1px 5px 0!important;
+}
+.ivu-card-bordered{
+  border:none;
+}
+.ivu-badge{
+  width: 50px;
+}
+.ivu-badge-count{
+  border-radius: 0!important;
+}
+/*针对添加文章样式修改*/
+textarea.ivu-input{
+  height: 600px;
+  min-height: 136px;
+}
+.i-editor-md .dev-md-content{
+  height: 600px;
+  overflow-y: scroll;
+}
