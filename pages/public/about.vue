@@ -40,7 +40,7 @@
 
 <script>
     export default {
-       layout: "public"
+      layout: "public"
     }
 </script>
 
