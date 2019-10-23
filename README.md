@@ -6,3 +6,6 @@
 npm i -G npx (如果你没用npx 可以先本地安装下)
 npx create-nuxt-app project-name (项目名称 mt-blog)
 ```
+
+## 2019/10/23
+ 1. 通过koa访问springboot后端API,完成分类的增删改查功能。
