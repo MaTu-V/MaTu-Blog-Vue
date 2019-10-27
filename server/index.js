@@ -5,7 +5,7 @@ const { Nuxt, Builder } = require('nuxt')
 // 处理koa的post请求确保获取数据
 import bodyParser from 'koa-bodyparser'
 // 导入各个接口模块
-import category from './interface/category'
+import {category,label} from './interface/index'
 
 const app = new Koa()
 
@@ -35,6 +35,7 @@ async function start () {
   }
   // 配置路由
   app.use(category.routes()).use(category.allowedMethods())
+    .use(label.routes()).use(label.allowedMethods())
 
   app.use((ctx) => {
     ctx.status = 200
