@@ -15,7 +15,6 @@ router.get('/getLabel', async (ctx, next) => {
     // 请求java后端api
     const {data: {status, msg, data}} = await axios.get('/label/getLabel')
     if (status === 200) {
-      console.log(data)
       ctx.body = {
         code: 1,
         data: data
@@ -32,10 +31,14 @@ router.get('/getLabel', async (ctx, next) => {
 // 新增分类数据
 router.post('/insLabel', async (ctx, next) => {
     // 获取传递参数
-    const {categoryName} = ctx.request.body;
+    const {labelName,back,categoryId} = ctx.request.body;
     // 请求java后端api
     const {data: {status, msg}} = await axios.post('/label/insLabel', {
-      categoryName:categoryName
+      labelName: labelName,
+      back: back,
+      category:{
+       id: categoryId
+      }
     });
     if (status === 200) {
       ctx.body = {
@@ -81,7 +84,11 @@ router.post('/updLabel', async (ctx, next) => {
     // 请求java后端api
     const {data: {status, msg}} = await axios.post('/label/updLabel', {
       id:id,
-      categoryName:categoryName
+      labelName: labelName,
+      back: back,
+      category:{
+        id: categoryId
+      }
     });
     if (status === 200) {
       ctx.body = {
@@ -95,5 +102,4 @@ router.post('/updLabel', async (ctx, next) => {
     }
   }
 )
-
 export default router

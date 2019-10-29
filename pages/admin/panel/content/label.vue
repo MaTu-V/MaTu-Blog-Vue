@@ -9,7 +9,7 @@
           </div>
           <br/>
           <div>
-            <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
+            <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
               <FormItem label="默认id" prop="id" v-if="updStatus">
                 <Input v-model="formValidate.id" disabled></Input>
               </FormItem>
@@ -19,9 +19,9 @@
               <FormItem label="标签背景色" prop="back">
                 <Input v-model="formValidate.back" placeholder="linear-gradient(to top, #0ba360 0%, #3cba92 100%)"></Input>
               </FormItem>
-              <FormItem label="所属分类">
-                <Select v-model="formValidate.select">
-                  <Option v-for="item in category" :key="item.id" value="item.id">{{item.categoryName}}</Option>
+              <FormItem label="所属分类" prop="select">
+                <Select v-model="formValidate.select" placeholder="请选择所属分类">
+                  <Option v-for="item in category" :key="item.id" :value="item.id">{{item.id}}</Option>
                 </Select>
               </FormItem>
               <FormItem>
@@ -77,6 +77,12 @@
             ],
             name: [
               {required: true, message: '请确认输入标签名称', trigger: 'blur'}
+            ],
+            back: [
+              {required: true, message: '请设置对应样式背景色', trigger: 'blur'}
+            ],
+            select: [
+              {required: true, message: '必须设置标签所属分类', trigger: 'blur'}
             ]
           },
           // 展示表格数据
@@ -189,46 +195,79 @@
       methods: {
         // 新增表单
         addSubmit(name) {
+          // 获取待验证对象
+          let fieldsToValidate = ['name', 'back']
           let that = this
-          // that.$refs[name].validateField('name', () => {
-          //   // 验证通过进行回调
-          //   // 调用添加操作
-          //   that.$axios.post('/category/insCategory', {categoryName: that.$refs[name].model.name})
-          //     .then(({data: {code}}) => {
-          //       if (code === 1) {
-          //         that.$Message.success('添加成功!')
-          //         // 刷新页面分类信息
-          //         that.getCategory()
-          //         // 清空当前表单数据
-          //         that.Reset(name)
-          //       } else {
-          //         that.$Message.error('添加失败!')
-          //       }
-          //     })
-          //     .catch(() => that.$Message.error('添加失败!'))
-          // })
+          Promise.all(fieldsToValidate.map(item => {
+            let p = new Promise(function (resolve, reject) {
+              that.$refs[name].validateField(item, (error) => {
+                resolve(error)
+              })
+            })
+            return p
+          })).then((data) => {
+            // data 里是各个字段的验证错误信息, 如果为空串则认为验证通过, 如果数组里全为空串则所有验证通过 判断data 里是否全是空串 去除数组空值
+            data = data.filter(item => item)
+            if(!data.length){
+              // 传递后端
+              if(!that.$refs[name].model.select ){
+                that.$Message.error('所属分类为必选项!')
+                return
+              }
+              that.$axios.post('/label/insLabel', {labelName: that.$refs[name].model.name,back:that.$refs[name].model.back,categoryId:that.$refs[name].model.select})
+                .then(({data: {code}}) => {
+                  if (code === 1) {
+                    that.$Message.success('添加成功!')
+                    // 刷新页面分类信息
+                    that.getLabel()
+                    // 清空当前表单数据
+                    that.Reset(name)
+                  } else {
+                    that.$Message.error('添加失败!')
+                  }
+                })
+            } else {
+              that.$Message.error('未满足填写规则（请确保是否无遗漏项）!')
+            }
+          }).catch(()=>that.$Message.error('验证失败!'))
         },
         updSubmit(name) {
           let that = this
-          // that.$refs[name].validate((valid) => {
-          //   // 发送请求
-          //   that.$axios.post('/category/updCategory', {
-          //     id: that.$refs[name].model.id,
-          //     categoryName: that.$refs[name].model.name
-          //   })
-          //     .then(({data: {code}}) => {
-          //       if (code === 1) {
-          //         that.$Message.success('更新成功!')
-          //         // 刷新页面分类信息
-          //         that.getCategory()
-          //         // 清空当前表单数据
-          //         that.Reset(name)
-          //       } else {
-          //         that.$Message.error('更新失败!')
-          //       }
-          //     })
-          //     .catch(() => that.$Message.error('更新失败!'))
-          // })
+          // 获取待验证对象
+          let fieldsToValidate = ['name','back']
+          Promise.all(fieldsToValidate.map(item => {
+            let p = new Promise(function (resolve, reject) {
+              that.$refs[name].validateField(item, (error) => {
+                resolve(error)
+              })
+            })
+            return p
+          })).then((data) => {
+            console.log(data)
+            // data 里是各个字段的验证错误信息, 如果为空串则认为验证通过, 如果数组里全为空串则所有验证通过 判断data 里是否全是空串 去除数组空值
+            data = data.filter(item => item)
+            if(!data.length){
+              // 传递后端
+              if(!that.$refs[name].model.select ){
+                that.$Message.error('所属分类为必选项!')
+                return
+              }
+              that.$axios.post('/label/updLabel', {id:that.$refs[name].model.id,labelName: that.$refs[name].model.name,back:that.$refs[name].model.back,categoryId:that.$refs[name].model.select})
+                .then(({data: {code}}) => {
+                  if (code === 1) {
+                    that.$Message.success('修改成功!')
+                    // 刷新页面分类信息
+                    that.getLabel()
+                    // 清空当前表单数据
+                    that.Reset(name)
+                  } else {
+                    that.$Message.error('修改失败!')
+                  }
+                })
+            } else {
+              that.$Message.error('未满足填写规则（请确保是否无遗漏项）!')
+            }
+          }).catch(()=>that.$Message.error('验证失败!'))
         },
         // 表单重置
         Reset(name) {

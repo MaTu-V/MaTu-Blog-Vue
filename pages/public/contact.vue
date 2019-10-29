@@ -1,5 +1,7 @@
 <template>
-
+  <div>
+    留言版
+  </div>
 </template>
 
 <script>

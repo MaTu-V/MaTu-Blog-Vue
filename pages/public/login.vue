@@ -1,59 +1,83 @@
 <template>
-  <div class="login bl-text-center">
-    <h2 class="title"><Icon type="md-ionitron" size="20"/> 登 录</h2>
-    <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-      <FormItem label="手机号" prop="phone">
-        <Input v-model="formValidate.phone" placeholder="请输入手机号"></Input>
+  <div class="login">
+    <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="60">
+      <FormItem label="账 号" prop="phone">
+        <Input v-model="formValidate.phone" size="large" placeholder="用户名/邮箱/手机号"></Input>
       </FormItem>
-      <FormItem label="密 码" prop="password">
-        <Input v-model="formValidate.password" type="password" placeholder="账号密码"></Input>
+      <FormItem label="密 码" prop="code">
+        <Input v-model="formValidate.mail" size="large" placeholder="密 码"></Input>
       </FormItem>
-      <FormItem label="" prop="remberMe" class="bl-text-left">
-        <Row>
-          <Col span="12">
-            <RadioGroup v-model="formValidate.remberMe">
-              <Radio label="true">记住我</Radio>
-            </RadioGroup>
-          </Col>
-          <Col span="12" class="bl-text-right bl-cursor">
-            <nuxt-link to="/public/register"><span class="register">账号注册</span></nuxt-link>
-            &nbsp;\&nbsp;
-            <nuxt-link to="/public/forget"><span class="forget">忘记密码？</span></nuxt-link>
-          </Col>
-        </Row>
-      </FormItem>
-      <FormItem>
-        <Button type="primary" @click="handleSubmit('formValidate')">登 录</Button>
-        <Button @click="handleReset('formValidate')" style="margin-left: 8px">重 置</Button>
-        <nuxt-link to="/" class="bl-text-right"><Button type="text">返回</Button></nuxt-link>
+      <FormItem class="bl-button">
+        <Button type="success"> 登 录</Button>
       </FormItem>
     </Form>
+    <div class="extra">
+      <Row>
+        <Col :xs="12" :md="12"><h5><nuxt-link class="router-link" to="/public/register">现在注册</nuxt-link></h5></Col>
+        <Col :xs="12" :md="12"><h5><nuxt-link class="router-link" to="/public/register">忘记密码？</nuxt-link></h5></Col>
+      </Row>
+      <Divider/>
+      <div>
+        <h5>快捷方式登录</h5>
+        <br/>
+        <Row type="flex" justify="start" class="code-row-bg icon-all">
+          <Col :xs="8" :md="8"><Icon custom="iconfont icon-QQ" class="icon-qq bl-cursor" size="40"/></Col>
+          <Col :xs="8" :md="8"><Icon custom="iconfont icon-weixin" class="icon-qq bl-cursor" size="40"/></Col>
+          <Col :xs="8" :md="8"><Icon custom="iconfont icon-xinlang" class="icon-qq bl-cursor" size="40"/></Col>
+        </Row>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
   export default {
-    layout:'login',
-    data () {
+    layout: 'login',
+    data() {
       return {
         formValidate: {
-          phone: '',
-          password: '',
-          remberMe:''
+          name: '',
+          mail: '',
+          city: '',
+          gender: '',
+          interest: [],
+          date: '',
+          time: '',
+          desc: ''
         },
         ruleValidate: {
-          phone: [
-            { required: true, message: '请输入手机号登录', trigger: 'blur' },
-            { type: 'number', min: 11,max:11, message: '手机号格式不正确', trigger: 'blur' }
+          name: [
+            {required: true, message: 'The name cannot be empty', trigger: 'blur'}
           ],
-          password: [
-            { required: true, message: '请输入登录密码', trigger: 'blur' }
+          mail: [
+            {required: true, message: 'Mailbox cannot be empty', trigger: 'blur'},
+            {type: 'email', message: 'Incorrect email format', trigger: 'blur'}
+          ],
+          city: [
+            {required: true, message: 'Please select the city', trigger: 'change'}
+          ],
+          gender: [
+            {required: true, message: 'Please select gender', trigger: 'change'}
+          ],
+          interest: [
+            {required: true, type: 'array', min: 1, message: 'Choose at least one hobby', trigger: 'change'},
+            {type: 'array', max: 2, message: 'Choose two hobbies at best', trigger: 'change'}
+          ],
+          date: [
+            {required: true, type: 'date', message: 'Please select the date', trigger: 'change'}
+          ],
+          time: [
+            {required: true, type: 'string', message: 'Please select time', trigger: 'change'}
+          ],
+          desc: [
+            {required: true, message: 'Please enter a personal introduction', trigger: 'blur'},
+            {type: 'string', min: 20, message: 'Introduce no less than 20 words', trigger: 'blur'}
           ]
         }
       }
     },
     methods: {
-      handleSubmit (name) {
+      handleSubmit(name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
             this.$Message.success('Success!');
@@ -62,27 +86,58 @@
           }
         })
       },
-      handleReset (name) {
+      handleReset(name) {
         this.$refs[name].resetFields();
       }
     }
   }
 </script>
 
-<style lang="scss" scoped>
-  .login{
-    padding-left: 30px;
-    vertical-align: center;
-    .title{
-      padding: 10px 0;
+<style lang="scss">
+  /*icon字体库导入*/
+  @import "../../assets/css/stylesheet.css";
+
+  .login {
+    .ivu-input {
+      width: 92%;
+      margin: auto;
+      border: none !important;
+      border-bottom: 1px solid #BFBFBF !important;
+      border-radius: 0;
+      background-color: transparent !important;
     }
-    .forget,.register{
-      color: #7f828b;
-      font-size: 12px;
-      &:hover{
-        color: #000;
+    .ivu-input:focus {
+      border-color: #BFBFBF !important;
+      outline: 0;
+      box-shadow: none !important;
+    }
+    .ivu-btn {
+      width: 92%;
+      margin: auto;
+      height: 50px;
+    }
+    .bl-button .ivu-form-item-content {
+      margin-left: 0 !important;
+    }
+    .extra{
+      width: 92%;
+      margin: auto;
+      .icon-qq:hover{
+        color: #2db7f5;
+      }
+      .icon-weixin:hover{
+        color: #19be6b;
+      }
+      .icon-xinlang:hover{
+        color: #ed4014;
       }
     }
   }
+  /*简单设置跳转样式*/
+  .router-link{
+    color: #515A6E;
+    &:hover{
+      color: #333;
+    }
+  }
 </style>
-
