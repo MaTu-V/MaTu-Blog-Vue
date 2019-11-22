@@ -1,13 +1,12 @@
 import axios from 'axios';
 
 // 创建实例
+console.log()
 const MtAxios = axios.create({
   baseUrl: 'http://127.0.0.1:8887/',
-  timeout: 10000,
-  // withCredentials: true
-  // changeOrigin:true,
+  timeout: 20000,
+  withCredentials: true, // 携带cookie
   headers: {
-    // "Content-Type": "application/x-www-form-urlencoded"
   }
 })
 // 默认导出

@@ -5,7 +5,7 @@ const { Nuxt, Builder } = require('nuxt')
 // 处理koa的post请求确保获取数据
 import bodyParser from 'koa-bodyparser'
 // 导入各个接口模块
-import {category,label} from './interface/index'
+import {category,label,sms,loginRegister,user,article} from './interface/index'
 
 const app = new Koa()
 
@@ -36,7 +36,10 @@ async function start () {
   // 配置路由
   app.use(category.routes()).use(category.allowedMethods())
     .use(label.routes()).use(label.allowedMethods())
-
+    .use(sms.routes()).use(sms.allowedMethods())
+    .use(user.routes()).use(user.allowedMethods())
+    .use(loginRegister.routes()).use(loginRegister.allowedMethods())
+    .use(article.routes()).use(article.allowedMethods())
   app.use((ctx) => {
     ctx.status = 200
     ctx.respond = false // Bypass Koa's built-in response handling

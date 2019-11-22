@@ -16,10 +16,10 @@
         </Upload>
       </FormItem>
       <FormItem label="昵 称">
-        <Input v-model="personalItem.input" placeholder="Edit your nickname..."></Input>
+        <Input v-model="personalItem.name" type="text" placeholder="Edit Your Name ..."></Input>
       </FormItem>
       <FormItem label="个人简介">
-        <Input v-model="personalItem.textarea" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."></Input>
+        <Input v-model="personalItem.describe"type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..."></Input>
       </FormItem>
       <Divider orientation="left">
         <p>邮箱 安全 <small>设置</small></p>
@@ -32,13 +32,13 @@
         <p>帐户 安全 <small>设置</small></p>
       </Divider>
       <FormItem label="邮 箱">
-        <Input v-model="personalItem.input" placeholder="Edit your nickname..."></Input>
+        <Input v-model="personalItem.email" placeholder="Edit your email ..."></Input>
       </FormItem>
       <FormItem label="新密码">
-        <Input v-model="personalItem.input" placeholder="Edit your nickname..."></Input>
+        <Input v-model="personalItem.pwd" placeholder="Edit your pwd ..."></Input>
       </FormItem>
       <FormItem label="确认密码">
-        <Input v-model="personalItem.input" placeholder="Edit your nickname..."></Input>
+        <Input v-model="personalItem.passwdCheck" placeholder="Edit your password again ..."></Input>
       </FormItem>
       <FormItem>
         <Button type="primary">保存</Button>
@@ -51,16 +51,13 @@
   export default {
     data () {
       return {
+        user:this.$store.state.user.userInfo,
         personalItem: {
-          input: '',
-          select: '',
-          radio: 'male',
-          checkbox: [],
-          switch: true,
-          date: '',
-          time: '',
-          slider: [20, 50],
-          textarea: ''
+          name: '' || this.$store.state.user.userInfo.nickName,
+          describe: ''|| this.$store.state.user.userInfo.describe,
+          email: ''|| this.$store.state.user.userInfo.email,
+          pwd: '',
+          passwdCheck: ''
         }
       }
     }

@@ -3,15 +3,15 @@
     <Row class="user-info">
       <div>
         <Col :xs="6" :md="3" :lg="2" class="bl-text-center">
-          <img class="user-image" width="70" height="70" src="../../assets/images/avatar.png"/>
+          <img class="user-image" width="70" height="70" :src="user.avatar"/>
         </Col>
         <Col :xs="18" :md="21" :lg="22">
-          <p class="bl-text-white user-name">海边来的设计师</p>
+          <p class="bl-text-white user-name">{{user.nickName}}</p>
           <div class="bl-nowrap">
-            <small class="bl-text-white">海边来的设计师海海边来的设计师海边来的海边来的设计师边来的海边来的设计师.</small>
+            <small class="bl-text-white">{{user.describe || "暂无个人介绍"}}</small>
             <small class="bl-text-white" style="float: right;margin-right: 10px;">
-              <Tag color="#5F69EF">关注：8888</Tag>
-              <Tag color="#FF4877">粉丝数：8888</Tag>
+              <Tag color="#5F69EF">已关注：{{user.followCounts || "0"}}&nbsp;人</Tag>
+              <Tag color="#FF4877">粉丝数：{{user.fanCounts || "0"}}</Tag>
             </small>
           </div>
         </Col>
@@ -60,7 +60,12 @@
 
 <script>
     export default {
-      layout:"public"
+      layout:"public",
+      data(){
+        return{
+          user:this.$store.state.user.userInfo
+        }
+      }
     }
 </script>
 
@@ -71,8 +76,7 @@
     .user-info{
       width: auto;
       height: 200px;
-      background: url("../../assets/images/user-back-1.jpg") ;
-      background-position: 50%;
+      background: url("../../static/backgroud/user-back-1.jpg") 50%;
       background-size: cover;
       transition: background-image .2s ease,background-size 1s ease;
       padding-top: 116px;

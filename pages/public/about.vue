@@ -3,7 +3,7 @@
     <Row>
       <Col span="24">
         <div class="title bl-text-center">
-          <h1>码 - 图 ( 个人博客 )</h1>
+          <h1>码 - 途 ( 个人博客 )</h1>
           <p>发布于: 2019-10-16 · 上次更新: 10月前 (12-10)</p>
         </div>
         <div class="content">

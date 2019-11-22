@@ -243,7 +243,6 @@
             })
             return p
           })).then((data) => {
-            console.log(data)
             // data 里是各个字段的验证错误信息, 如果为空串则认为验证通过, 如果数组里全为空串则所有验证通过 判断data 里是否全是空串 去除数组空值
             data = data.filter(item => item)
             if(!data.length){

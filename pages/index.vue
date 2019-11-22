@@ -2,7 +2,7 @@
     <div>
       <!--首页内容展示-->
       <blog-container/>
-    </div>
+  </div>
 </template>
 
 <script>

@@ -21,7 +21,7 @@
     <nuxt-link :to="{path:'/public/about'}">
       <Menu-item name="link">
         <Icon type="md-link" size="18"/>
-        码 - 图
+        码 - 途
       </Menu-item>
     </nuxt-link>
     <a href="https://github.com/MaTu-V" target="_blank">

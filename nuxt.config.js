@@ -34,6 +34,7 @@ module.exports = {
   // 部分客户端插件 需要关闭ssr服务
   plugins: [
     {src:'@/plugins/iview',ssr:true},
+    {src:'@/plugins/CryptoEncode',ssr:true},
     {src:'@/plugins/iview-editor',ssr:false}
   ],
   /*
@@ -62,6 +63,7 @@ module.exports = {
     ** You can extend webpack config here
     */
     extend (config, ctx) {
-    }
+    },
+    vendor:['Qs']
   }
 }
